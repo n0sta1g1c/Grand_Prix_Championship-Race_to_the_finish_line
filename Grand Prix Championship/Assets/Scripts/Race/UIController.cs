@@ -33,6 +33,9 @@ public class UIController : MonoBehaviour
 
     public GameObject PlayerCar;
 
+    public GameObject RestartButton;
+    public GameObject BackToMainMenuButton;
+
     private Player Player;
     private PlayerController PlayerController;
 
@@ -101,6 +104,7 @@ public class UIController : MonoBehaviour
     {
         if (PlayerController == null || PlayerController.Player == null)
         {
+            //SetPlayerReference(GameManager.Instance.ChosenCarObject);
             Debug.LogWarning("PlayerController or player is null.");
             return;
         }
@@ -363,6 +367,8 @@ public class UIController : MonoBehaviour
         WaitingPanel.SetActive(false);
 
         Debug.Log("PlacesPanel cleared.");
+        RestartButton.SetActive(false);
+        BackToMainMenuButton.SetActive(false);
         UIResultPanel.gameObject.SetActive(false);
         LaptimesUpdated = false; // Reset the flag for new results
     }

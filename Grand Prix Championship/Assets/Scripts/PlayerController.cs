@@ -28,10 +28,10 @@ public class PlayerController : MonoBehaviour
     private bool IsResetting = false;
     public float SpeedThreshold = 0.5f;
 
-    private List<int> BoostWaypoints_Hungaroring = new List<int> { 5, 22, 28 };
+    private List<int> BoostWaypoints_Hungaroring = new List<int> { 5, 23, 28 };
     private List<int> BoostWaypoints_Interlagos = new List<int> { 9, 19 };
 
-    private List<int> LiftWaypoints_Hungaroring = new List<int> { 5, 7, 17, 19, 23 };
+    private List<int> LiftWaypoints_Hungaroring = new List<int> { 5, 7, 17, 20, 24 };
     private List<int> LiftWaypoints_Interlagos = new List<int> { 2, 10, 19, 20, 21, 25 };
 
     private Transform[] Checkpoints;

@@ -6,21 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Level/Scenes/Menu/MainMenu.unity
     guid: 19cdc1ac60cd8b4459e40a78304aea4b
   - enabled: 1
-    path: Assets/Scenes/Selection.unity
+    path: Assets/Level/Scenes/Menu/Selection.unity
     guid: cdaa9535ffec43f40a961645ee366522
   - enabled: 1
-    path: Assets/Scenes/Hungaroring.unity
+    path: Assets/Level/Scenes/TrackScenes/Hungaroring.unity
     guid: 80e5bf1c042e80d4997e8bd9b02faf60
   - enabled: 1
-    path: Assets/Scenes/Brands_Hatch.unity
+    path: Assets/Level/Scenes/TrackScenes/Brands_Hatch.unity
     guid: 9992bc62f00ed4c4fa43a8945bad5daa
   - enabled: 1
-    path: Assets/Scenes/Interlagos.unity
+    path: Assets/Level/Scenes/TrackScenes/Interlagos.unity
     guid: 563114a754826cd478a5325cedce86b7
-  - enabled: 0
-    path: Assets/Scenes/Hungaroring_TimeTrial.unity
-    guid: da0b74991fe247d43b65996dc6f6f6c2
   m_configObjects: {}

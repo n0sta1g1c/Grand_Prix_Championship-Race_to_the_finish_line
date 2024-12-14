@@ -11,7 +11,6 @@ public class TrackSelection : MonoBehaviour
     public TMP_Text SelectedTrackNameText;
     int TrackIndex;
     int TrackMaxIndex;
-    //string chosen_car;
 
     float levelLoadDelay;
 
@@ -33,14 +32,9 @@ public class TrackSelection : MonoBehaviour
 
     void Update()
     {
-
-
-
-
-        // Enable or disable the "Next" button
         NextButton.gameObject.SetActive(TrackIndex < TrackMaxIndex);
 
-        // Enable or disable the "Prev" button
+
         PrevButton.gameObject.SetActive(TrackIndex > 0);
     }
 
@@ -52,11 +46,9 @@ public class TrackSelection : MonoBehaviour
         {
             TrackObjects[i].SetActive(false);
             TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedTrackNameText.text = SelectionManager.Instance.TrackNames[TrackIndex];
         }
         PlayerPrefs.SetInt("TrackIndex", TrackIndex);
-        //PlayerPrefs.SetInt("carIndex", Index);
         PlayerPrefs.Save();
     }
 
@@ -68,11 +60,9 @@ public class TrackSelection : MonoBehaviour
         {
             TrackObjects[i].SetActive(false);
             TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedTrackNameText.text = SelectionManager.Instance.TrackNames[TrackIndex];
         }
         PlayerPrefs.SetInt("TrackIndex", TrackIndex);
-        //PlayerPrefs.SetInt("carIndex", Index);
         PlayerPrefs.Save();
     }
 }

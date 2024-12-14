@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class BrakingZone : MonoBehaviour
 {
-    [SerializeField] private int CarTypeID; // Assign a unique ID for each braking zone (1, 2, or 3)
+    [SerializeField] private int CarTypeID; //1: Terepjáró, 2: Retro sportautó, 3: Modern sportautó
 
     private void OnTriggerEnter(Collider other)
     {
         PlayerController PlayerController = other.transform.parent.GetComponent<PlayerController>();
 
-        if (PlayerController != null && PlayerController.Player.CarType == CarTypeID) // Match the car type
+        if (PlayerController != null && PlayerController.Player.CarType == CarTypeID) 
         {
             PlayerController.IsInsideBraking = true;
         }
@@ -18,7 +18,7 @@ public class BrakingZone : MonoBehaviour
     {
         PlayerController PlayerController = other.transform.parent.GetComponent<PlayerController>();
 
-        if (PlayerController != null && PlayerController.Player.CarType == CarTypeID) // Match the car type
+        if (PlayerController != null && PlayerController.Player.CarType == CarTypeID) 
         {
             PlayerController.IsInsideBraking = false;
         }

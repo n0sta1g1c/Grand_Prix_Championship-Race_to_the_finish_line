@@ -35,7 +35,7 @@ public class Car_Sound : MonoBehaviour
 
         if (CarAudio != null)
         {
-            CarAudio.spatialBlend = 1.0f; // Full 3D sound
+            CarAudio.spatialBlend = 1.0f; // 3D térhatás
             CarAudio.loop = true;
             //carAudio.volume = 0.5f;
         }
@@ -93,21 +93,16 @@ public class Car_Sound : MonoBehaviour
     void HandleProximityVolume()
     {
         if (PlayerCar == null || CarAudio == null) return;
-
-        // Calculate distance from the player's car
         float distance = Vector3.Distance(transform.position, PlayerCar.position);
 
         if (distance > MaxHearableDistance)
         {
-            CarAudio.volume = 0; // Mute the sound if too far
+            CarAudio.volume = 0; 
         }
         else
         {
-            // Linearly adjust volume based on distance
             CarAudio.volume = Mathf.Lerp(1f, 0.2f, distance / MaxHearableDistance);
         }
-
-        //Debug.Log($"Car Distance: {distance}, Volume: {carAudio.volume}, Speed: {currentSpeed}, Pitch: {carAudio.pitch}");
     }
 
 }

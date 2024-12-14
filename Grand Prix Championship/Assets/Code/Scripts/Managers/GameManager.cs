@@ -120,26 +120,25 @@ public class GameManager : MonoBehaviour
 
         AudioManager.PlaySFX("Countdown");
 
-        float realTimeDelay = CountdownDelay; // Time between each countdown step
+        float realTimeDelay = CountdownDelay; 
         int countdownNumber = 3;
 
         // Display countdown numbers
         while (countdownNumber > 0)
         {
-            CountdownText.text = countdownNumber.ToString(); // Display the number
-            yield return new WaitForSecondsRealtime(realTimeDelay); // Wait in real time
+            CountdownText.text = countdownNumber.ToString(); 
+            yield return new WaitForSecondsRealtime(realTimeDelay); 
             countdownNumber--;
         }
 
-        // Display "GO!" and release brakes
+        
         CountdownText.text = "GO!";
 
-        yield return new WaitForSecondsRealtime(realTimeDelay); // Allow "GO!" to display briefly
+        yield return new WaitForSecondsRealtime(realTimeDelay); 
 
-        // Hide the countdown UI
         CountdownPanel.SetActive(false);
 
-        CountdownState = false; // Signal that the countdown is finished
+        CountdownState = false; 
     }
 
     private void SetGameMode()
@@ -189,9 +188,9 @@ public class GameManager : MonoBehaviour
 
     private void CheckIfRaceIsOver()
     {
-        if (RaceCompleted) return; // Avoid repeating the end logic
+        if (RaceCompleted) return; 
 
-        // Check if all players have finished
+        
         foreach (Transform t in PlayerCars)
         {
             if (t.GetComponent<PlayerController>().Player.Finished)
@@ -239,7 +238,7 @@ public class GameManager : MonoBehaviour
 
     private void ShowRaceResults()
     {
-        // Enable the results canvas
+        
         if (UIController != null)
         {
             UIController.ShowPlaces();
@@ -261,14 +260,14 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator DelayedButtons(float delay)
     {
-        // Wait for the specified delay
+        
         yield return new WaitForSeconds(delay);
 
-        // Apply the brake
+        
         RestartButton.SetActive(true);
         BackToMenuButton.SetActive(true);
 
-        //Debug.Log("Brake applied after delay.");
+        
     }
 
     private void SetupCheckpoints()
@@ -298,17 +297,17 @@ public class GameManager : MonoBehaviour
 
         int playerStartPosition = 0;
 
-        // Determine the player's starting position based on difficulty
+        
         switch (GameSetup.Difficulty)
         {
             case "Easy":
-                playerStartPosition = 0; // Start in the first grid slot
+                playerStartPosition = 0; 
                 break;
             case "Medium":
-                playerStartPosition = 3; // Start in the 5th grid slot
+                playerStartPosition = 3; 
                 break;
             case "Hard":
-                playerStartPosition = 7; // Start in the last grid slot
+                playerStartPosition = 7; 
                 break;
         }
 
@@ -319,10 +318,10 @@ public class GameManager : MonoBehaviour
         SpawnPlayerCar(playerGridSlot, playerStartPosition + 1);
 
 
-        // Spawn AI cars in the remaining positions
+        
         for (int i = 0; i < GameSetup.NumberOfPlayers; i++)
         {
-            if (i == playerStartPosition) continue; // Skip the player's position
+            if (i == playerStartPosition) continue; 
 
             Transform gridSlot = GridPositions[i];
             SpawnRandomAICar(gridSlot, i + 1);
@@ -339,9 +338,9 @@ public class GameManager : MonoBehaviour
 
     private void SpawnPlayerCar(Transform gridSlot, int gridpos)
     {
-        if (CarPrefabs.Count == 0) return; // Ensure prefabs exist
+        if (CarPrefabs.Count == 0) return; 
 
-        // Get the car prefab based on GameSetup.CarIndex
+        
         if (GameSetup.CarIndex < 0 || GameSetup.CarIndex >= CarPrefabs.Count)
         {
             Debug.LogError("Invalid CarIndex in GameSetup.");
@@ -352,24 +351,16 @@ public class GameManager : MonoBehaviour
 
         AssignedPrefabs.Add(chosenCarPrefab);
 
-        // Instantiate the car at the grid slot
+        
         ChosenCarObject = Instantiate(chosenCarPrefab.gameObject, gridSlot.position, gridSlot.rotation);
 
-        //playerCar = ChosenCarObject;
-
-        // Create the Player object
         Player player = new Player(GameSetup.PlayerName, ChosenCarObject.transform, Player.ControlType.HumanInput);
         player.GridPosition = gridpos;
         Players.Add(player);
 
-        // Ensure the car is active
-        //playerCar.SetActive(true);
-
-        // Initialize PlayerController
         var playerController = ChosenCarObject.GetComponent<PlayerController>() ?? ChosenCarObject.AddComponent<PlayerController>();
         playerController.Initialize(player);
 
-        // Reset physics properties
         Rigidbody rb = ChosenCarObject.GetComponent<Rigidbody>();
         if (rb != null)
         {
@@ -377,41 +368,40 @@ public class GameManager : MonoBehaviour
             rb.angularVelocity = Vector3.zero;
         }
 
-        // Add the car to tracking lists
+       
         PlayerCars.Add(ChosenCarObject.transform);
-        SpawnedCars.Add(ChosenCarObject); // Track the spawned player car
-        CarObjects.Add(ChosenCarObject.transform); // Add to the general car list
+        SpawnedCars.Add(ChosenCarObject); 
+        CarObjects.Add(ChosenCarObject.transform); 
 
-        //Debug.Log($"{player.Name}, {player.CarTransform.name}, Car type: {player.CarType}, Grid Position: {gridpos}");
+
     }
     
 
     private void SpawnRandomAICar(Transform gridSlot, int gridpos)
     {
-        if (CarPrefabs.Count == 0) return; // Ensure prefabs exist
+        if (CarPrefabs.Count == 0) return; 
 
-        // Select a random prefab
-        //int randomIndex = Random.Range(0, CarPrefabs.Count);
+        
         int randomIndex = 1;
 
-        float maxSpeedMultiplier = 1f; // Default to no speed reduction
+        float maxSpeedMultiplier = 1f; 
 
         switch (GameSetup.Difficulty)
         {
             case "Easy":
-                randomIndex = 0; // Always choose cars from index 0
-                maxSpeedMultiplier = 0.8f; // Reduce max speed to 90%
+                randomIndex = 0; 
+                maxSpeedMultiplier = 0.8f; 
                 break;
 
             case "Medium":
-                // 70% chance to choose index 1, 30% chance for index 0
+                
                 randomIndex = Random.Range(0, 10) < 7 ? 1 : 0;
-                maxSpeedMultiplier = 0.9f; // Reduce max speed to 95%
+                maxSpeedMultiplier = 0.9f; 
                 break;
 
             case "Hard":
-                randomIndex = 2; // Always choose cars from index 2
-                maxSpeedMultiplier = 1f; // No speed reduction
+                randomIndex = 2; 
+                maxSpeedMultiplier = 1f; 
                 break;
         }
 
@@ -419,11 +409,9 @@ public class GameManager : MonoBehaviour
 
         AssignedPrefabs.Add(randomCarPrefab);
 
-        // Instantiate the car
+        
         GameObject aiCar = Instantiate(randomCarPrefab.gameObject, gridSlot.position, gridSlot.rotation);
-        //aiCar.name = $"AI_{AINumber}";
         Player aiPlayer = new Player($"AI_{AINumber}", aiCar.transform);
-        //Debug.Log(aiPlayer.Name + ", " + aiPlayer.CarTransform.name + ", Car tpye: " + aiPlayer.CarType);
         aiPlayer.GridPosition = gridpos;
 
         AudioListener aiAudioListener = aiCar.GetComponent<AudioListener>();
@@ -436,7 +424,7 @@ public class GameManager : MonoBehaviour
         Players.Add(aiPlayer);
         AINumber++;
 
-        // Initialize PlayerController
+        
         var playerController = aiCar.GetComponent<PlayerController>() ?? aiCar.AddComponent<PlayerController>();
         playerController.Initialize(aiPlayer);
 
@@ -446,16 +434,16 @@ public class GameManager : MonoBehaviour
         }
 
         CarObjects.Add(aiCar.transform);
-        SpawnedCars.Add(aiCar); // Track the spawned car
+        SpawnedCars.Add(aiCar); 
     }
 
     void RandomizeCarOrder()
     {
-        System.Random random = new System.Random(); // Random number generator
+        System.Random random = new System.Random(); 
         for (int i = CarObjects.Count - 1; i > 0; i--)
         {
             int randomIndex = random.Next(0, i + 1);
-            // Swap the cars
+            
             Transform temp = CarObjects[i];
             CarObjects[i] = CarObjects[randomIndex];
             CarObjects[randomIndex] = temp;
@@ -466,19 +454,19 @@ public class GameManager : MonoBehaviour
 
     public void RestartRace()
     {
-        // Clear existing cars
+        
         foreach (var car in SpawnedCars)
         {
-            Destroy(car); // Destroy the car GameObjects
+            Destroy(car); 
         }
 
-        // Clear all runtime data, except the assigned car types
+        
         SpawnedCars.Clear();
         PlayerCars.Clear();
         Players.Clear();
         CarObjects.Clear();
         FinishedPlayers.Clear();
-        AINumber = 0; // Reset AI numbering
+        AINumber = 0; 
 
         RaceCompleted = false;
 
@@ -502,7 +490,7 @@ public class GameManager : MonoBehaviour
     {
         int playerStartPosition = 0;
 
-        // Determine the player's starting position based on difficulty
+        
         switch (GameSetup.Difficulty)
         {
             case "Easy":
@@ -522,20 +510,20 @@ public class GameManager : MonoBehaviour
             SpawnPlayerCar(playerGridSlot, playerStartPosition + 1);
         }
 
-        // Respawn AI cars with the saved types
+        
         for (int i = 0; i < GameSetup.NumberOfPlayers; i++)
         {
             if (i == playerStartPosition) continue;
 
             Transform gridSlot = GridPositions[i];
-            Transform aiCarType = AssignedPrefabs[i]; // Use the previously assigned type
+            Transform aiCarType = AssignedPrefabs[i]; 
             SpawnSpecificAICar(aiCarType, gridSlot, i + 1);
         }
     }
 
     private void SpawnSpecificAICar(Transform carPrefab, Transform gridSlot, int gridpos)
     {
-        // Instantiate the specific car prefab
+        
         GameObject aiCar = Instantiate(carPrefab.gameObject, gridSlot.position, gridSlot.rotation);
 
         Player aiPlayer = new Player($"AI_{AINumber}", aiCar.transform);
@@ -561,18 +549,18 @@ public class GameManager : MonoBehaviour
 
     void UpdatePlayerPositions()
     {
-        // Sort players by lap, checkpoint progress, and distance to next checkpoint
+        
         Players.Sort((a, b) =>
         {
-            // First, compare lap numbers (higher lap = better position)
+            
             if (a.CurrentLap != b.CurrentLap)
                 return b.CurrentLap.CompareTo(a.CurrentLap);
 
-            // Then, compare checkpoints passed (higher = better position)
+            
             if (a.LastCheckpointPassed != b.LastCheckpointPassed)
                 return b.LastCheckpointPassed.CompareTo(a.LastCheckpointPassed);
 
-            // Finally, compare distance to the next checkpoint (shorter distance = better position)
+            
             Transform nextCheckpointA = GetNextCheckpoint(a);
             Transform nextCheckpointB = GetNextCheckpoint(b);
 
@@ -582,7 +570,7 @@ public class GameManager : MonoBehaviour
             return distanceA.CompareTo(distanceB);
         });
 
-        // Update each player's position
+       
         for (int i = 0; i < Players.Count; i++)
         {
             Players[i].RacePosition = i + 1;
@@ -608,25 +596,25 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        // Get the total time of the leader (first player in the list)
+        
         float leaderTime = FinishedPlayers[0].TotalTime;
 
-        // Loop through all players and calculate the gap
+        
         for (int i = 0; i < FinishedPlayers.Count; i++)
         {
             Player player = FinishedPlayers[i];
 
-            // Calculate the gap relative to the leader
+            
             player.Gap = player.TotalTime - leaderTime;
 
-            // Debug log for verification
+            
             Debug.Log($"Player {player.Name} Gap: {player.Gap:F2} seconds");
         }
     }
 
     public void ReturnToMainMenu()
     {
-        // Optionally, reset any persistent data here.
+        
         Time.timeScale = 1.0f;
         ResetPlayerPrefs();
         SceneManager.LoadScene("MainMenu");

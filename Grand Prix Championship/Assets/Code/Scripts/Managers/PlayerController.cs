@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
             ResetPlayer();
         }
 
-        //Calculating current laptime
+        
         UpdateCurrentLapTime();
 
         if (!CheckIfFinished())
@@ -85,7 +85,7 @@ public class PlayerController : MonoBehaviour
             }
             else if (Player.controlType == ControlType.AI)
             {
-                //AI Logic
+                //Gépi ellenfél logikája
 
                 FollowWaypoints();
 
@@ -125,13 +125,13 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator DelayedBrake(float delay)
     {
-        // Wait for the specified delay
+        
         yield return new WaitForSeconds(delay);
 
         // Apply the brake
         CarController.Brake = true;
 
-        //Debug.Log("Brake applied after delay.");
+        
     }
 
     public void SetCarMaxSpeed(int carType)
@@ -153,48 +153,44 @@ public class PlayerController : MonoBehaviour
     void StartLap()
     {
         //Debug.Log("Lap started");
-        if (Player.CurrentLap < 0) // Initialize on first lap
+        if (Player.CurrentLap < 0) 
         {
             Player.CurrentLap = 0;
-            Player.BestLapTime = float.MaxValue; // Set best time to an unachievable value initially
+            Player.BestLapTime = float.MaxValue; 
         }
         else
         {
-            Player.CurrentLap++; // Increment lap counter
+            Player.CurrentLap++; 
         }
 
         Player.LastCheckpointPassed = 1;
         Player.LapTimerTimeStamp = Time.time;
-        Player.ValidLap = true; // Assume lap starts as valid
+        Player.ValidLap = true; 
     }
 
     void EndLap()
     {
-        // Ensure lap ends correctly
+        
         Player.LastLapTime = Time.time - Player.LapTimerTimeStamp;
 
-        // Update best lap time if current lap is valid
+        
         if (Player.ValidLastLap)
         {
             Player.BestLapTime = Mathf.Min(Player.LastLapTime, Player.BestLapTime);
         }
 
-        // Log the completed lap
-        //Debug.Log("Lap ended - missed checkpoint: " + player.LastCheckpointPassed);
+        
         RaceLap lap = new RaceLap((int)Player.CurrentLap, Player.ValidLastLap, Player.LastLapTime, CalculatePenalty(Player.LastCheckpointPassed, CheckpointCount));
         if (lap.Penalty > 0)
         {
             Player.PenaltyApplied = true;
             Player.PenaltyTime += lap.Penalty;
         }
-        //Debug.Log(player.Name + lap.Penalty);
+        
         Player.TotalTime += Player.LastLapTime;
         Player.TotalTime += lap.Penalty;
         Player.RaceLapsList.Add(lap);
 
-
-
-        //Debug.Log(player.Name + ", lap:" + lap.LapNumber + ", Laptime: " + lap.LapTime + ", Penalty: " + lap.Penalty);
 
     }
 
@@ -212,9 +208,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider collider)
     {
-        //Debug.Log(player.Name + ": " + ", Last Checkpoint passed:"+player.LastCheckpointPassed);
-
-        // Checkpoint collision logic
+      
         if (collider.gameObject.layer != CheckpointLayer)
             return;
 
@@ -222,54 +216,48 @@ public class PlayerController : MonoBehaviour
         if (int.TryParse(collider.gameObject.name, out checkpointNumber))
         {
             //Debug.Log(player.Name + ", Last Checkpoint passed: " + player.LastCheckpointPassed);
-            if (checkpointNumber == Player.LastCheckpointPassed + 1) // Correct order
+            if (checkpointNumber == Player.LastCheckpointPassed + 1) // Helyes sorrend
             {
                 Player.LastCheckpointPassed = checkpointNumber;
                 Player.MissedCheckpoint = false;
-                // Reset missed checkpoint flag
             }
-            else if (checkpointNumber > Player.LastCheckpointPassed + 1) // Skipped checkpoints
+            else if (checkpointNumber > Player.LastCheckpointPassed + 1) // Helytelen sorrend: kihagyott ellõrzõ pont
             {
-                if (!Player.MissedCheckpoint) // Play error audio only once per missed checkpoint
+                if (!Player.MissedCheckpoint) 
                 {
                     if (Player.controlType == Player.ControlType.HumanInput)
                     {
                         GameManager.Instance.AudioManager.PlaySFX("Error");
                     }
-                    Player.MissedCheckpoint = true; // Set flag indicating a checkpoint was missed
+                    Player.MissedCheckpoint = true; 
                 }
-                Player.ValidLap = false; // Mark lap as invalid
-            }
-            else if (checkpointNumber <= Player.LastCheckpointPassed) // Backtracking or duplicate trigger
-            {
-
-                // Optional: You can log a warning or ignore this case
+                Player.ValidLap = false; 
             }
         }
 
 
-        // Handle the starting line checkpoint
+        
         if (collider.gameObject.name == "1")
         {
-            if (Player.LastCheckpointPassed == CheckpointCount) // Completed a valid lap
+            if (Player.LastCheckpointPassed == CheckpointCount) // Tiszta kör
             {
                 Player.ValidLastLap = true;
                 EndLap();
                 StartLap();
             }
-            else if (Player.LastCheckpointPassed > 1 && Player.LastCheckpointPassed <= CheckpointCount) // Skipped checkpoints
+            else if (Player.LastCheckpointPassed > 1 && Player.LastCheckpointPassed <= CheckpointCount) // Kihagyott ellenõrzõ pont
             {
                 Player.ValidLastLap = false;
                 EndLap();
                 StartLap();
             }
-            else if (Player.CurrentLap == 0) // Initial lap condition
+            else if (Player.CurrentLap == 0) // kezdõkör
             {
                 StartLap();
             }
             if (Player.CurrentLap > GameManager.Instance.GameSetup.RaceDistance && GameManager.Instance.GameSetup.GameMode == 0)
             {
-                if (!Player.Finished) // Check if the player has already been marked as finished
+                if (!Player.Finished) 
                 {
                     GameManager.Instance.FinishedPlayers.Add(Player);
                     if (Player == GameManager.Instance.FinishedPlayers[0])
@@ -329,7 +317,6 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAIWaypoint(int lastCheckpointPassed)
     {
-        // Define a mapping of checkpoints to waypoints for each track
         Dictionary<int, int> checkpointToWaypointMap_Hungaroring = new Dictionary<int, int>
         {
         { 1, 1 }, { 2, 3 }, { 3, 7 }, { 4, 8 },
@@ -401,12 +388,11 @@ public class PlayerController : MonoBehaviour
     {
         SettingInputAI();
 
-        //Setting AI car inputs
         CarController.Steer = CalculateSteerAngle();
         CarController.Throttle = GasInput;
         CarController.Brake = BrakeInput;
 
-        //Visualization
+        //Segédvizualizáció
         Debug.DrawRay(transform.position, Waypoints[CurrentWaypoint].position - transform.position, Color.yellow);
     }
 
@@ -423,10 +409,10 @@ public class PlayerController : MonoBehaviour
             {
                 float targetGasInput = Mathf.Clamp01((1f - Mathf.Abs(CarController.CurrentSpeed * 0.01f * CurrentAngle) / 20f));
                 float gasIncreaseSpeed = 0.8f;
-                // Gradually move gasInput toward the target value
+                
                 GasInput = Mathf.MoveTowards(GasInput, targetGasInput, gasIncreaseSpeed * Time.deltaTime);
 
-                //gasInput = Mathf.Clamp01((1f - Mathf.Abs(carController.currentSpeed * 0.01f * currentAngle) / 20f));
+                
                 BrakeInput = false;
             }
         }
@@ -446,20 +432,20 @@ public class PlayerController : MonoBehaviour
 
     private void CheckIfStuck()
     {
-        // If the car hasn't moved significantly and is below the speed threshold
+        
         if ((transform.position - LastPosition).magnitude < 0.1f && CarRigidbody.velocity.magnitude < SpeedThreshold)
         {
             StuckTime += Time.deltaTime;
             if (StuckTime >= ResetThreshold && !IsResetting)
             {
-                //Debug.Log("Car is stuck. Resetting...");
+                
                 ResetToLastCheckpoint();
                 UpdateAIWaypoint(Player.LastCheckpointPassed);
             }
         }
         else
         {
-            StuckTime = 0f; // Reset the stuck timer if the car moves
+            StuckTime = 0f; 
         }
 
         LastPosition = transform.position;
@@ -525,17 +511,17 @@ public class PlayerController : MonoBehaviour
 
     private float CalculateSteerAngle()
     {
-        // Get the position of the car and the next waypoint
+        
         Vector3 carPosition = transform.position;
         Vector3 waypointPosition = Waypoints[CurrentWaypoint].position;
 
-        // Calculate the direction to the next waypoint
+        
         Vector3 directionToWaypoint = (waypointPosition - carPosition).normalized;
 
-        // Calculate the angle between the car's forward direction and the direction to the waypoint
+        
         float angleToWaypoint = Vector3.SignedAngle(transform.forward, directionToWaypoint, Vector3.up);
 
-        // Return the normalized steering angle (-1 to 1)
+        
         return Mathf.Clamp(angleToWaypoint / 20f, -1f, 1f);
     }
 
@@ -546,11 +532,11 @@ public class PlayerController : MonoBehaviour
             IsBoosting = true;
 
             float originalMaxSpeed = CarController.MaxSpeed;
-            CarController.MaxSpeed = CarController.MaxSpeed * boost; // Temporarily increase max speed
+            CarController.MaxSpeed = CarController.MaxSpeed * boost; 
 
-            yield return new WaitForSeconds(2f); // Wait for the boost duration
+            yield return new WaitForSeconds(2f); /
 
-            CarController.MaxSpeed = originalMaxSpeed; // Reset to original speed
+            CarController.MaxSpeed = originalMaxSpeed; 
             IsBoosting = false;
         }
 
@@ -565,11 +551,11 @@ public class PlayerController : MonoBehaviour
             IsLifting = true;
 
             float originalMaxSpeed = CarController.MaxSpeed;
-            CarController.MaxSpeed = CarController.MaxSpeed * lift; // Temporarily increase max speed
+            CarController.MaxSpeed = CarController.MaxSpeed * lift; 
 
-            yield return new WaitForSeconds(2f); // Wait for the boost duration
+            yield return new WaitForSeconds(2f); 
 
-            CarController.MaxSpeed = originalMaxSpeed; // Reset to original speed
+            CarController.MaxSpeed = originalMaxSpeed; 
             IsLifting = false;
         }
     }

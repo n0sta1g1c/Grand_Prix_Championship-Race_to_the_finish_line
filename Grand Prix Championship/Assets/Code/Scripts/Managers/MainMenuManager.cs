@@ -75,13 +75,13 @@ public class MainMenuManager : MonoBehaviour
 
             if (Resolutions[i].width == Screen.currentResolution.width && Resolutions[i].height == Screen.currentResolution.height)
             {
-                // Adjust index for reversed order
+                
                 ResolutionIndex = (Resolutions.Length - 1) - i;
                 Debug.Log($"Current Resolution Detected: {Option}, Index: {ResolutionIndex}");
             }
         }
 
-        ResolutionDropdown.ClearOptions(); // Clear any existing options
+        ResolutionDropdown.ClearOptions(); 
         ResolutionDropdown.AddOptions(ResolutionOptions);
         ResolutionDropdown.value = ResolutionIndex;
         ResolutionDropdown.RefreshShownValue();
@@ -91,7 +91,7 @@ public class MainMenuManager : MonoBehaviour
     {
         if (resolitionIndex >= 0 && resolitionIndex < Resolutions.Length)
         {
-            Resolution resolution = Resolutions[Resolutions.Length - 1 - resolitionIndex]; // Adjust for reversed order
+            Resolution resolution = Resolutions[Resolutions.Length - 1 - resolitionIndex]; 
             Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
             Debug.Log($"Updated to Resolution: {resolution.width}x{resolution.height}");
         }
@@ -160,9 +160,6 @@ public class MainMenuManager : MonoBehaviour
 
         for (int i = 0; i < GraphicsNamesList.Length; i++)
         {
-            //TrackObjects[i].SetActive(false);
-            //TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedGraphicsText.text = GraphicsNamesList[GraphicsIndex];
         }
         QualitySettings.SetQualityLevel(GraphicsIndex);
@@ -176,9 +173,6 @@ public class MainMenuManager : MonoBehaviour
 
         for (int i = 0; i < GraphicsNamesList.Length; i++)
         {
-            //TrackObjects[i].SetActive(false);
-            //TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedGraphicsText.text = GraphicsNamesList[GraphicsIndex];
         }
         QualitySettings.SetQualityLevel(GraphicsIndex);
@@ -192,9 +186,6 @@ public class MainMenuManager : MonoBehaviour
 
         for (int i = 0; i < FullscreenList.Length; i++)
         {
-            //TrackObjects[i].SetActive(false);
-            //TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedFullscreenText.text = FullscreenList[FullscreenIndex];
         }
         bool FullscreenBoolean = FullscreenIndex > 0 ? true : false;
@@ -210,9 +201,6 @@ public class MainMenuManager : MonoBehaviour
 
         for (int i = 0; i < FullscreenList.Length; i++)
         {
-            //TrackObjects[i].SetActive(false);
-            //TrackObjects[TrackIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedFullscreenText.text = FullscreenList[FullscreenIndex];
         }
         bool FullscreenBoolean = FullscreenIndex > 0 ? true : false;
@@ -224,7 +212,7 @@ public class MainMenuManager : MonoBehaviour
 
     private void ResetButtonScales(GameObject panel)
     {
-        // Find all buttons in the panel and reset their scale
+        
         Button[] buttons = panel.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
         {

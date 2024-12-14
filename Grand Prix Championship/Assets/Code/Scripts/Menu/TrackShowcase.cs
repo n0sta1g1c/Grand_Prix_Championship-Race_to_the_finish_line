@@ -3,17 +3,16 @@ using UnityEngine;
 
 public class TrackShowcase : MonoBehaviour
 {
-    public CanvasGroup FadeCanvasGroup; // Canvas group for fading effect
-    public GameObject[] Tracks; // Array of track GameObjects
-    public float DisplayTime = 60f; // Time each track stays visible
-    public float FadeDuration = 2f; // Duration of fade effect
+    public CanvasGroup FadeCanvasGroup; 
+    public GameObject[] Tracks; 
+    public float DisplayTime = 60f; 
+    public float FadeDuration = 2f; 
 
     private int CurrentTrackIndex = 0;
     private bool IsTransitioning = false;
 
     void Start()
     {
-        // Initialize
         SetActiveTrack(CurrentTrackIndex);
         StartCoroutine(FadeIn());
     }
@@ -33,7 +32,6 @@ public class TrackShowcase : MonoBehaviour
 
     private void SetActiveTrack(int index)
     {
-        // Deactivate all tracks
         for (int i = 0; i < Tracks.Length; i++)
         {
             Tracks[i].SetActive(i == index);
@@ -43,19 +41,11 @@ public class TrackShowcase : MonoBehaviour
     private IEnumerator TransitionToNextTrack()
     {
         IsTransitioning = true;
-
-        // Fade out
         yield return StartCoroutine(FadeOut());
-
-        // Switch to the next track
         CurrentTrackIndex = (CurrentTrackIndex + 1) % Tracks.Length;
         SetActiveTrack(CurrentTrackIndex);
-
-        // Fade in
         yield return StartCoroutine(FadeIn());
-
-        // Reset timer and allow updates
-        DisplayTime = 60f; // Reset the display time
+        DisplayTime = 60f; /
         IsTransitioning = false;
     }
 
@@ -70,7 +60,7 @@ public class TrackShowcase : MonoBehaviour
             yield return null;
         }
 
-        FadeCanvasGroup.alpha = 0.3f; // Fully visible
+        FadeCanvasGroup.alpha = 0.3f; 
     }
 
     private IEnumerator FadeOut()
@@ -84,6 +74,6 @@ public class TrackShowcase : MonoBehaviour
             yield return null;
         }
 
-        FadeCanvasGroup.alpha = 1f; // Fully hidden
+        FadeCanvasGroup.alpha = 1f; 
     }
 }

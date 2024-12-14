@@ -43,7 +43,6 @@ public class CarSelection : MonoBehaviour
         {
             CarObjects[i].SetActive(false);
             CarObjects[CarIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedCarNameText.text = SelectionManager.Instance.CarNames[CarIndex];
         }
         PlayerPrefs.SetInt("CarIndex", CarIndex);
@@ -58,45 +57,9 @@ public class CarSelection : MonoBehaviour
         {
             CarObjects[i].SetActive(false);
             CarObjects[CarIndex].SetActive(true);
-            //chosen_car = CarObjects[Index].transform.name;
             SelectedCarNameText.text = SelectionManager.Instance.CarNames[CarIndex];
         }
         PlayerPrefs.SetInt("CarIndex", CarIndex);
         PlayerPrefs.Save();
     }
-
-    /*public void Race()
-    {
-        race.enabled = false;
-        timetrial.enabled = false;
-        PlayerPrefs.SetInt("gamemode", 1);
-        PlayerPrefs.Save();
-        GameManager_CarSelection.Instance.AudioManager_Menu.StopMusic("Menu_theme");
-        GameManager_CarSelection.Instance.AudioManager_Menu.PlaySFX("car_start");
-        //Debug.Log("Race Scene");
-        Invoke("startRace", 3);
-        //SceneManager.LoadSceneAsync("Hungaroring_Race");
-    }
-
-    public void TimeTrial()
-    {
-        race.enabled = false;
-        timetrial.enabled = false;
-        //race.interactable = false;
-        //timetrial.interactable = false;
-        PlayerPrefs.SetInt("gamemode", 0);
-        PlayerPrefs.Save();
-        GameManager_CarSelection.Instance.AudioManager_Menu.StopMusic("Menu_theme");
-        GameManager_CarSelection.Instance.AudioManager_Menu.PlaySFX("car_start");
-        Invoke("startTimeTrial", 3);
-    }
-
-    public void startTimeTrial() {
-        SceneManager.LoadSceneAsync("Hungaroring_TimeTrial");
-    }
-
-    public void startRace()
-    {
-        SceneManager.LoadSceneAsync("Hungaroring_Race");
-    }*/
 }

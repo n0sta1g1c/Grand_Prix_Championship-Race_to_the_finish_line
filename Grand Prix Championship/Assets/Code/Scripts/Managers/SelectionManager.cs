@@ -65,7 +65,6 @@ public class SelectionManager : MonoBehaviour
         PlayerConfigPhase.GetComponent<CanvasGroup>().interactable = false;
         AudioManager.StopMusic("Selection_Theme");
         AudioManager.PlaySFX("Engine_Start");
-        //Debug.Log(PlayerNameText.text);
         ButtonSFX ButtonSFX = StartButton.GetComponent<ButtonSFX>();
         if (ButtonSFX != null)
         {
@@ -140,10 +139,10 @@ public class SelectionManager : MonoBehaviour
             CarCamera.gameObject.SetActive(true);
             TrackCamera.gameObject.SetActive(true);
 
-            CarCamera.rect = new Rect(0, 0, 0.5f, 1f); // Left half (x, y, width, height)
+            CarCamera.rect = new Rect(0, 0, 0.5f, 1f); 
 
-            // Set trackCamera to render the right half of the screen
-            TrackCamera.rect = new Rect(0.5f, 0, 0.5f, 1f); // Right half
+            
+            TrackCamera.rect = new Rect(0.5f, 0, 0.5f, 1f); 
 
             CarSelectionPhase.SetActive(false);
             TrackSelectionPhase.SetActive(false);
@@ -205,10 +204,10 @@ public class SelectionManager : MonoBehaviour
             CarCamera.gameObject.SetActive(false);
             TrackCamera.gameObject.SetActive(true);
 
-            CarCamera.rect = new Rect(0, 0, 1f, 1f); // Left half (x, y, width, height)
+            CarCamera.rect = new Rect(0, 0, 1f, 1f); 
 
-            // Set trackCamera to render the right half of the screen
-            TrackCamera.rect = new Rect(0, 0, 1f, 1f); // Right half
+            
+            TrackCamera.rect = new Rect(0, 0, 1f, 1f); 
 
             CarSelectionPhase.SetActive(false);
             TrackSelectionPhase.SetActive(true);
@@ -221,10 +220,10 @@ public class SelectionManager : MonoBehaviour
             CarCamera.gameObject.SetActive(true);
             TrackCamera.gameObject.SetActive(true);
 
-            CarCamera.rect = new Rect(0, 0, 0.5f, 1f); // Left half (x, y, width, height)
+            CarCamera.rect = new Rect(0, 0, 0.5f, 1f); 
 
-            // Set trackCamera to render the right half of the screen
-            TrackCamera.rect = new Rect(0.5f, 0, 0.5f, 1f); // Right half
+            
+            TrackCamera.rect = new Rect(0.5f, 0, 0.5f, 1f); 
 
             CarSelectionPhase.SetActive(false);
             TrackSelectionPhase.SetActive(false);
@@ -233,7 +232,7 @@ public class SelectionManager : MonoBehaviour
             CurrentPhaseText.text = "save and continue";
         }
 
-        // Ensure Phase doesn't go below 1
+        
         if (Phase < 0)
         {
             Phase = 0;
@@ -263,14 +262,14 @@ public class SelectionManager : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            // Lerp the width value
+            
             float newWidth = Mathf.Lerp(initialWidth, targetWidth, elapsedTime / duration);
             ImageLine_Menu_RectTransform.sizeDelta = new Vector2(newWidth, initialSize.y);
 
             yield return null;
         }
 
-        // Ensure the final size is set
+        
         ImageLine_Menu_RectTransform.sizeDelta = new Vector2(targetWidth, initialSize.y);
     }
 

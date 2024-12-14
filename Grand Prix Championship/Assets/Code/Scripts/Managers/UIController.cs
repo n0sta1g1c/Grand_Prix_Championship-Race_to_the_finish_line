@@ -53,7 +53,7 @@ public class UIController : MonoBehaviour
         customCulture.NumberFormat.NumberDecimalSeparator = ".";
         WarningCurrImage.enabled = false;
         WarningLastImage.enabled = false;
-        // Set the current thread's culture to the custom culture
+
         System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
     }
 
@@ -104,7 +104,6 @@ public class UIController : MonoBehaviour
     {
         if (PlayerController == null || PlayerController.Player == null)
         {
-            //SetPlayerReference(GameManager.Instance.ChosenCarObject);
             Debug.LogWarning("PlayerController or player is null.");
             return;
         }
@@ -160,7 +159,7 @@ public class UIController : MonoBehaviour
     {
         UITextAllPostion.text = GameManager.Instance.Players.Count.ToString();
 
-        //Player player = PlayerController.Player;
+        
         if (Player.controlType == Player.ControlType.HumanInput)
         {
             if (GameManager.Instance.RaceCompleted)
@@ -194,7 +193,7 @@ public class UIController : MonoBehaviour
 
     private void UpdateLapInfo()
     {
-        //Player player = PlayerController.Player;
+        
 
         if (GameManager.Instance.GameSetup.GameMode == 0)
         {
@@ -213,7 +212,7 @@ public class UIController : MonoBehaviour
 
     private void UpdateLapTimes()
     {
-        //Player player = PlayerController.Player;
+        
 
         if (Player.CurrentLapTime != CurrentLapTime)
         {
@@ -286,7 +285,7 @@ public class UIController : MonoBehaviour
     {
         TMP_Text buttonPlayerNameText = button.transform.GetChild(0).GetComponent<TMP_Text>();
 
-        // Find the player based on the button's text
+        
         Player targetPlayer = GameManager.Instance.FinishedPlayers
             .FirstOrDefault(p => p.Name == buttonPlayerNameText.text);
 
@@ -306,7 +305,7 @@ public class UIController : MonoBehaviour
             return;
         }
 
-        // Loop through players and update the PlacesPanel
+        
         for (int i = 0; i < GameManager.Instance.FinishedPlayers.Count; i++)
         {
             Transform placeButton = PlacesPanel.transform.GetChild(i);
@@ -322,7 +321,7 @@ public class UIController : MonoBehaviour
                 penaltyIndicator.gameObject.SetActive(true);
             }
 
-            // Update player name and time/penalty
+            
             playerNameText.text = player.Name;
             if (i == 0)
             {
@@ -336,7 +335,7 @@ public class UIController : MonoBehaviour
             }
         }
 
-        // Display the player's lap times in the LaptimesPanel
+        
         Player humanPlayer = GameManager.Instance.FinishedPlayers
             .FirstOrDefault(p => p.controlType == Player.ControlType.HumanInput);
 
@@ -356,7 +355,7 @@ public class UIController : MonoBehaviour
             return;
         }
 
-        // Loop through each child and deactivate them
+        
         foreach (Transform child in PlacesPanel.transform)
         {
             child.gameObject.SetActive(false);
@@ -370,12 +369,12 @@ public class UIController : MonoBehaviour
         RestartButton.SetActive(false);
         BackToMainMenuButton.SetActive(false);
         UIResultPanel.gameObject.SetActive(false);
-        LaptimesUpdated = false; // Reset the flag for new results
+        LaptimesUpdated = false; 
     }
 
     private void ResetButtonScales(GameObject panel)
     {
-        // Find all buttons in the panel and reset their scale
+        
         Button[] buttons = panel.GetComponentsInChildren<Button>();
         foreach (Button button in buttons)
         {

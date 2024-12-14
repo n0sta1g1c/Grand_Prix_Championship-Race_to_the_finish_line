@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class AudioManager : MonoBehaviour
 {
-    // Start is called before the first frame update
     public Sound[] MusicSounds, SFXSounds;
     public AudioSource MusicSource, SFXSource;
 
@@ -42,15 +41,6 @@ public class AudioManager : MonoBehaviour
             StartCoroutine(DelayedPlayMusic(3));
         }
     }
-
-    /*private void Update()
-    {
-        if (scene.buildIndex > 1)
-        {
-            CheckIfGameIsInCountdownState();
-        }
-
-    }*/
 
     private void InitializePlayerPrefsVolume()
     {
@@ -117,38 +107,20 @@ public class AudioManager : MonoBehaviour
         for (float t = 0; t < fadeDuration; t += Time.deltaTime)
         {
             audioSource.volume = Mathf.Lerp(startVolume, 0, t / fadeDuration);
-            yield return null; // Wait for the next frame
+            yield return null; 
         }
 
-        audioSource.volume = 0; // Ensure it's fully set to zero
-        audioSource.mute = true; // Optionally mute the audio entirely
+        audioSource.volume = 0; 
+        audioSource.mute = true; 
     }
 
-    /*private void CheckIfGameIsInCountdownState()
-    {
-        if (!GameManager.Instance.CountdownState && !MusicIsPlaying)
-        {
-            //Debug.Log("Music is playing");
-            PlayMusic("Game_Theme");
-            //Debug.Log("Game is paused");
-            StopMusic("Game_Theme");
-        }
-        else
-        {
-            if (!MusicIsPlaying)
-            {
-
-            }
-
-        }
-    }*/
 
     private IEnumerator DelayedPlayMusic(float delay)
     {
-        // Wait for the specified delay
+        
         yield return new WaitForSeconds(delay);
 
-        // Apply the brake
+        
         PlayMusic("Game_Theme");
 
         //Debug.Log("Brake applied after delay.");

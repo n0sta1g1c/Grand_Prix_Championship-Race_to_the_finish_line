@@ -189,34 +189,34 @@ public class GameSettings : MonoBehaviour
         {
             elapsedTime += Time.deltaTime;
 
-            // Interpolate the height value
+            
             float newHeight = Mathf.Lerp(initialHeight, targetHeight, elapsedTime / duration);
             BackgroundPanel.sizeDelta = new Vector2(initialSize.x, newHeight);
 
             yield return null;
         }
 
-        // Ensure the final size is set
+        
         BackgroundPanel.sizeDelta = new Vector2(initialSize.x, targetHeight);
 
-        // Delayed activation of panels after animation ends
+        
         
     }
 
     private void UpdateGameModeUI()
     {
-        // Check if the current mode is Time Trial
+        
         bool isTimeTrial = SelectionManager.Instance.GameModeNames[Index_GameModes] == "Time trial";
 
-        // Target size based on game mode
+        
         float targetHeight = isTimeTrial ? 50f : 200f;
 
         SelectedRaceDistance.SetActive(!isTimeTrial);
         SelectedNumberOfOpponents.SetActive(!isTimeTrial);
         SelectedDifficulty.SetActive(!isTimeTrial);
 
-        // Start the smooth height change coroutine and handle panel activation
-        StopAllCoroutines(); // Stop any ongoing transitions
+        
+        StopAllCoroutines(); 
         StartCoroutine(SmoothHeightChange(targetHeight, isTimeTrial));
     }
 }

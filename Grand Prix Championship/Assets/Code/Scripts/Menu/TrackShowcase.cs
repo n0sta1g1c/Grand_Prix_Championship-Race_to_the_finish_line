@@ -45,7 +45,7 @@ public class TrackShowcase : MonoBehaviour
         CurrentTrackIndex = (CurrentTrackIndex + 1) % Tracks.Length;
         SetActiveTrack(CurrentTrackIndex);
         yield return StartCoroutine(FadeIn());
-        DisplayTime = 60f; /
+        DisplayTime = 60f; 
         IsTransitioning = false;
     }
 

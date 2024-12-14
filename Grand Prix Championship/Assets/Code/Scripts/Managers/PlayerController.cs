@@ -534,7 +534,7 @@ public class PlayerController : MonoBehaviour
             float originalMaxSpeed = CarController.MaxSpeed;
             CarController.MaxSpeed = CarController.MaxSpeed * boost; 
 
-            yield return new WaitForSeconds(2f); /
+            yield return new WaitForSeconds(2f); 
 
             CarController.MaxSpeed = originalMaxSpeed; 
             IsBoosting = false;
